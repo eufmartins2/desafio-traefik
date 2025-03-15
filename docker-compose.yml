@@ -12,6 +12,7 @@ services:
       - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
+      - "8080:8080"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     labels:
@@ -23,5 +24,7 @@ services:
     container_name: flask-app
     restart: always
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.flask.rule=PathPrefix(`/`)"
       - "traefik.http.routers.flask.entrypoints=web"
+      - "traefik.http.services.flask.loadbalancer.server.port=5000"
